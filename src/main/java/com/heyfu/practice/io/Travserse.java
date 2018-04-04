@@ -29,7 +29,6 @@ public class Travserse {
             return null;
         }
         for (File f : files) {
-            System.out.println(f.getName());
 //            初始化最大的文件和最小的文件
             if (f.length() > 0 && maxFile == null) {
                 maxFile = f;

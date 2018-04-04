@@ -35,7 +35,7 @@ public class TestIo {
         File maxFile = null;
         String format = "文件名: %s  文件大小: %.8f %n";
 
-        File[] max_min = Travserse.getMaxAndMinFile(fileList, true);
+        File[] max_min = Travserse.getMaxAndMinFile(fileList);
         System.out.printf("最大文件名:%s, 文件大小:%d, 文件路径:%s %n", max_min[0].getName(), max_min[0].length(), max_min[0].getAbsolutePath());
         System.out.printf("最小文件名:%s, 文件大小:%d, 文件路径:%s %n", max_min[1].getName(), max_min[1].length(), max_min[1].getAbsolutePath());
 
