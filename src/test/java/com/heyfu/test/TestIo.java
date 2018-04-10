@@ -23,43 +23,28 @@ public class TestIo {
      **/
     @Test
     public void traverseFile() {
-
-        String filePath = "C:\\Users\\Lenovo\\Desktop\\数据传输原型";
+        String filePath = "C:\\Users\\Lenovo\\Desktop\\webpackTest";
         File file = new File(filePath);
         if (!file.exists()) {
             System.out.println(filePath + "文件不存在");
             return;
         }
         File[] fileList = file.listFiles();
-        File minFile = null;
-        File maxFile = null;
-        String format = "文件名: %s  文件大小: %.8f %n";
-
-        File[] max_min = Travserse.getMaxAndMinFile(fileList);
+        File[] max_min = Travserse.getMaxAndMinFile(fileList, true);
         System.out.printf("最大文件名:%s, 文件大小:%d, 文件路径:%s %n", max_min[0].getName(), max_min[0].length(), max_min[0].getAbsolutePath());
         System.out.printf("最小文件名:%s, 文件大小:%d, 文件路径:%s %n", max_min[1].getName(), max_min[1].length(), max_min[1].getAbsolutePath());
+    }
 
-        for (File f : fileList) {
-            if (minFile == null && f.length() > 0) {
-                minFile = f;
-            }
-            if (maxFile == null && f.length() > 0) {
-                maxFile = f;
-            }
-            if (f.length() > 0 && minFile.length() > f.length()) {
-                minFile = f;
-            }
-            if (f.length() > 0 && f.length() > maxFile.length()) {
-                maxFile = f;
-            }
-        }
+    /**
+     * Description:
+     * 练习流
+     *
+     * @author heyefu 13:24 2018/4/5
+     **/
+    @Test
+    public void practiceStream() {
 
-        double minLength = minFile.length() / 1024.0 / 1024;
-        double maxLength = maxFile.length() / 1024.0 / 1024;
 
-        System.out.printf("总共有%d个文件%n", fileList.length);
-        System.out.printf(format, minFile.getName(), minLength);
-        System.out.printf(format, maxFile.getName(), maxLength);
 
     }
 
