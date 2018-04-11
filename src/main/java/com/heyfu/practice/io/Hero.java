@@ -22,11 +22,11 @@ public class Hero {
 
     }
 
-    public void recover(){
+    public synchronized void recover(){
         this.hp++;
     }
 
-    public void hurt(){
+    public synchronized void hurt(){
         this.hp--;
     }
 
