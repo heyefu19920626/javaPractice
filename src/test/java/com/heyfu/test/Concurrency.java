@@ -26,7 +26,9 @@ public class Concurrency {
             Thread t = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    gareen.recover();
+                    synchronized (gareen){
+                        gareen.recover();
+                    }
                 }
             });
             t.start();
@@ -35,7 +37,9 @@ public class Concurrency {
             Thread t_down = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    gareen.hurt();
+                    synchronized (gareen){
+                        gareen.hurt();
+                    }
                 }
             });
             t_down.start();
@@ -54,20 +58,20 @@ public class Concurrency {
 //        }
 
 //        确保所有线程走完
-//        for (Thread t : addThreads) {
-//            try {
-//                t.join();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        for (Thread t : reduceThreads){
-//            try {
-//                t.join();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        for (Thread t : addThreads) {
+            try {
+                t.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        for (Thread t : reduceThreads){
+            try {
+                t.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         System.out.printf("%d个增加线程和%d个减少线程结束后gareen的生命值为%.8f%n", threadNum, threadNum, gareen.getHp());
 
 
