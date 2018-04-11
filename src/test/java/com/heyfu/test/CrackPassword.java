@@ -19,8 +19,7 @@ public class CrackPassword {
     public static void main(String[] args) {
 
         Random random = new Random();
-        int password = random.nextInt(1000);
-        password = 10;
+        int password = random.nextInt(100);
         System.out.println(password);
         final LinkedList container = new LinkedList();
 
@@ -33,7 +32,7 @@ public class CrackPassword {
             public void run() {
                 while (true) {
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

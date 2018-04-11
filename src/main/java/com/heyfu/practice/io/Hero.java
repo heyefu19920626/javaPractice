@@ -21,4 +21,36 @@ public class Hero {
     public void attack(Hero h){
 
     }
+
+    public void recover(){
+        this.hp++;
+    }
+
+    public void hurt(){
+        this.hp--;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public float getHp() {
+        return hp;
+    }
+
+    public void setHp(float hp) {
+        this.hp = hp;
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
 }
