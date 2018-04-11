@@ -45,18 +45,6 @@ public class Concurrency {
             t_down.start();
             reduceThreads[i] = t_down;
         }
-//        减少生命的线程
-//        for (int i = 0; i < threadNum; i++) {
-//            Thread t = new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    gareen.hurt();
-//                }
-//            });
-//            t.start();
-//            reduceThreads[i] = t;
-//        }
-
 //        确保所有线程走完
         for (Thread t : addThreads) {
             try {
@@ -74,8 +62,12 @@ public class Concurrency {
         }
         System.out.printf("%d个增加线程和%d个减少线程结束后gareen的生命值为%.8f%n", threadNum, threadNum, gareen.getHp());
 
-
     }
 
+
+    @Test
+    public void testLock(){
+
+    }
 
 }
