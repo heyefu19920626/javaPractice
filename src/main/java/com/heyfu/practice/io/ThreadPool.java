@@ -21,14 +21,26 @@ public class ThreadPool {
      */
     private LinkedList<Runnable> tasks = new LinkedList<>();
 
+    /**
+     * Descrip * @param  * 初始化线程池
+     *
+     * @author heyefu
+     **/
     public ThreadPool() {
         for (int i = 0; i < threadPoolSize; i++) {
-            new TaskConsumeThred().start();
+            new TaskConsumeThread().start();
         }
     }
 
+    /**
+     * Description:
+     * 向待办任务列表中添加任务, 唤醒线程池中正在wait的线程
+     *
+     * @param task 待办任务
+     * @author heyefu 14:14 2018/4/12
+     **/
     public void add(Runnable task) {
-        synchronized (tasks){
+        synchronized (tasks) {
             System.out.println("向线程池添加任务");
             tasks.add(task);
             System.out.println("待办任务个数:" + tasks.size());
@@ -36,13 +48,14 @@ public class ThreadPool {
         }
     }
 
-    class TaskConsumeThred extends Thread {
+    class TaskConsumeThread extends Thread {
         private Runnable task;
+
         @Override
         public void run() {
             System.out.println("启动:" + this.getName());
             while (true) {
-                synchronized (tasks){
+                synchronized (tasks) {
                     while (tasks.isEmpty()) {
                         try {
                             System.out.println(this.getName() + "正在等待!");
