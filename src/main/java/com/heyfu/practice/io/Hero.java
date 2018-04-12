@@ -23,7 +23,7 @@ public class Hero {
     }
 
     public synchronized void recover(){
-        if (this.hp == 10){
+        while (this.hp >= 10){
             try {
                 this.wait();
             } catch (InterruptedException e) {
@@ -31,11 +31,11 @@ public class Hero {
             }
         }
         this.hp++;
-        this.notify();
+        this.notifyAll();
     }
 
     public synchronized void hurt(){
-        if (this.hp == 1){
+        while (this.hp <= 1){
             try {
                 this.wait();
             } catch (InterruptedException e) {
@@ -43,7 +43,7 @@ public class Hero {
             }
         }
         this.hp--;
-        this.notify();
+        this.notifyAll();
     }
 
     public String getName() {

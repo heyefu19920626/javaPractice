@@ -141,44 +141,48 @@ public class Concurrency {
 
         Hero gareen = new Hero("盖伦", 10);
 
-        Thread t_add = new Thread(){
-            @Override
-            public void run() {
-                while (true){
-                    try {
-                        Thread.sleep(10);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+        for (int i = 0; i < 2; i++) {
+            Thread t_add = new Thread() {
+                @Override
+                public void run() {
+                    while (true) {
+                        try {
+                            Thread.sleep(10);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        gareen.recover();
+                        System.out.printf("t_add正在为gareen加血,减少后血量为%f%n", gareen.getHp());
                     }
-                    gareen.recover();
-                    System.out.printf("t_add正在为gareen加血,减少后血量为%f%n", gareen.getHp());
                 }
-            }
-        };
-        t_add.start();
+            };
+            t_add.start();
+        }
 
-        Thread t_reduce = new Thread() {
-            @Override
-            public void run() {
-                while (true) {
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+        for (int i = 0; i < 5; i++) {
+            Thread t_reduce = new Thread() {
+                @Override
+                public void run() {
+                    while (true) {
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
 //                    if (gareen.getHp() == 1){
 //                        continue;
 //                    }
-                    gareen.hurt();
-                    System.out.printf("t_add正在为gareen减血,减少后血量为%f%n", gareen.getHp());
+                        gareen.hurt();
+                        System.out.printf("t_add正在为gareen减血,减少后血量为%f%n", gareen.getHp());
+                    }
                 }
-            }
-        };
-        t_reduce.start();
+            };
+            t_reduce.start();
+        }
 
 
         try {
-            Thread.sleep(10000);
+            Thread.sleep(100000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
