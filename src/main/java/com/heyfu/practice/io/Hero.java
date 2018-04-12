@@ -24,9 +24,17 @@ public class Hero {
 
     public synchronized void recover(){
         this.hp++;
+        this.notify();
     }
 
     public synchronized void hurt(){
+        if (this.hp == 1){
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         this.hp--;
     }
 

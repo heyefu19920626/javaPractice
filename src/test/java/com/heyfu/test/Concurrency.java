@@ -166,9 +166,9 @@ public class Concurrency {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    if (gareen.getHp() == 1){
-                        continue;
-                    }
+//                    if (gareen.getHp() == 1){
+//                        continue;
+//                    }
                     gareen.hurt();
                     System.out.printf("t_add正在为gareen减血,减少后血量为%f%n", gareen.getHp());
                 }
