@@ -23,6 +23,13 @@ public class Hero {
     }
 
     public synchronized void recover(){
+        if (this.hp == 10){
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         this.hp++;
         this.notify();
     }
@@ -36,6 +43,7 @@ public class Hero {
             }
         }
         this.hp--;
+        this.notify();
     }
 
     public String getName() {

@@ -146,7 +146,7 @@ public class Concurrency {
             public void run() {
                 while (true){
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(10);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -162,7 +162,7 @@ public class Concurrency {
             public void run() {
                 while (true) {
                     try {
-                        Thread.sleep(10);
+                        Thread.sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
