@@ -16,6 +16,12 @@ import java.sql.*;
 public class TestJDBC {
 
 
+    /**
+     * Description:
+     * 测试基本JDBC查询,使用Statement
+     *
+     * @author heyefu 11:57 2018/4/13
+     **/
     @Test
     public void testRetrieve() {
 
@@ -31,7 +37,9 @@ public class TestJDBC {
             while (result.next()) {
                 System.out.printf("%s %s %s %s%n", result.getString(1), result.getString(2), result.getString(3), result.getString(4));
             }
-
+            result.last();
+            int rownum = result.getRow();
+            System.out.printf("共有%d条数据%n", rownum);
         } catch (SQLException e) {
             e.printStackTrace();
         }
