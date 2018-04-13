@@ -17,8 +17,8 @@ public class TestJDBC {
 
     public static void main(String[] args) {
         list(0, 2);
-        list(1,2);
-        list(2,2);
+        list(1, 2);
+        list(2, 2);
 
     }
 
@@ -35,9 +35,11 @@ public class TestJDBC {
 
         Connection conn = getConn();
 
-        try (Statement s = conn.createStatement()) {
-            ResultSet result = s.executeQuery("SELECT * FROM product_ limit " + start*count + ", " + count);
-            while (result.next()){
+        try (PreparedStatement s = conn.prepareStatement("SELECT * FROM  product_ limit ?, ?")) {
+            s.setInt(1, start * count);
+            s.setInt(2, count);
+            ResultSet result = s.executeQuery();
+            while (result.next()) {
                 System.out.printf("%s %s %s %s%n", result.getString(1), result.getString(2), result.getString(3), result.getString(4));
             }
             result.last();
