@@ -19,9 +19,43 @@ public class TestJDBC {
         list(0, 2);
         list(1, 2);
         list(2, 2);
-
     }
 
+
+    /**
+     * Description:
+     * 获取数据库的元数据并输出
+     *
+     * @author heyefu 14:07 2018/4/13
+     **/
+    @Test
+    public void getMetaData() {
+        Connection conn = getConn();
+
+        try {
+            DatabaseMetaData data = conn.getMetaData();
+            System.out.println("数据库产品名称:" + data.getDatabaseProductName());
+            System.out.println("数据库版本:" + data.getDatabaseProductVersion());
+            System.out.println("数据库和表分隔符:" + data.getCatalogSeparator());
+            System.out.println("驱动版本:" + data.getDriverVersion());
+            System.out.println("驱动名称:" + data.getDriverName());
+            System.out.println("可用的数据库列表:");
+            ResultSet r = data.getCatalogs();
+            while (r.next()) {
+                System.out.println("数据库名称:" + r.getString(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     /**
      * Description:
