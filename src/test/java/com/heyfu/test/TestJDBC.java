@@ -1,5 +1,6 @@
 package com.heyfu.test;
 
+import com.heyfu.practice.io.ConnectionPool;
 import org.junit.Test;
 
 import java.sql.*;
@@ -16,9 +17,28 @@ public class TestJDBC {
 
 
     public static void main(String[] args) {
-        list(0, 2);
-        list(1, 2);
-        list(2, 2);
+//        list(0, 2);
+//        list(1, 2);
+//        list(2, 2);
+
+
+        //测试数据库连接池
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
+        System.out.println("当前连接池空闲连接数: " + connectionPool.getConnectionSize());
+        Connection conn = connectionPool.getConnection();
+        System.out.println("当前连接池空闲连接数: " + connectionPool.getConnectionSize());
+
+        try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM product_")){
+            ps.execute();
+            ResultSet rs = ps.getResultSet();
+            rs.last();
+            System.out.printf("共查到%d条数据!", rs.getRow());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        connectionPool.returnConnection(conn);
+        System.out.println("当前连接池空闲连接数: " + connectionPool.getConnectionSize());
     }
 
 
