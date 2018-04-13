@@ -24,6 +24,48 @@ public class TestJDBC {
 
     /**
      * Description:
+     * JDBC 事务
+     * 要么都成功,要么都失败
+     *
+     * @author heyefu 14:27 2018/4/13
+     **/
+    @Test
+    public void testAffair() {
+        Connection conn = getConn();
+
+        try (Statement s = conn.createStatement()) {
+//            关闭自动提交
+            conn.setAutoCommit(false);
+            s.execute("INSERT INTO product_ VALUES(7, '测试事务1', 99.9, 2)");
+            s.execute("INSERT INTO product_ VALUES(8, '测试事务1', 99.9, 2)");
+//            手动提交
+            conn.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                if (!conn.isClosed()) {
+                    conn.rollback();
+                    System.out.println("插入失败,回滚数据库");
+
+                }
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        }
+
+
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    /**
+     * Description:
      * 获取数据库的元数据并输出
      *
      * @author heyefu 14:07 2018/4/13
