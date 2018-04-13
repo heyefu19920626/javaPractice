@@ -21,23 +21,36 @@ public class TestJDBC {
 //        list(1, 2);
 //        list(2, 2);
 
-
         //测试数据库连接池
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         System.out.println("当前连接池空闲连接数: " + connectionPool.getConnectionSize());
-        Connection conn = connectionPool.getConnection();
-        System.out.println("当前连接池空闲连接数: " + connectionPool.getConnectionSize());
 
-        try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM product_")){
-            ps.execute();
-            ResultSet rs = ps.getResultSet();
-            rs.last();
-            System.out.printf("共查到%d条数据!", rs.getRow());
-        } catch (SQLException e) {
-            e.printStackTrace();
+        for (int i = 0; i < 20; i++) {
+            new Thread() {
+                int num;
+                @Override
+                public void run() {
+                    Connection conn = connectionPool.getConnection();
+                    System.out.printf("线程%d获取了一个连接,开始工作%n", num);
+                    try(PreparedStatement ps = conn.prepareStatement("SELECT * FROM product_")) {
+                        Thread.sleep(1000);
+                        ps.execute();
+                        ResultSet rs = ps.getResultSet();
+                        rs.last();
+                        System.out.printf("线程%d共查询到%d条数据!%n", num, rs.getRow());
+                    } catch (InterruptedException | SQLException e) {
+                        e.printStackTrace();
+                    }finally {
+                        connectionPool.returnConnection(conn);
+                    }
+                }
+                public Thread getNum(int num){
+                    this.num = num;
+                    return this;
+                }
+            }.getNum(i).start();
         }
 
-        connectionPool.returnConnection(conn);
         System.out.println("当前连接池空闲连接数: " + connectionPool.getConnectionSize());
     }
 
