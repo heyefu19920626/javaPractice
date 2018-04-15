@@ -1,9 +1,6 @@
 package internet;
 
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -25,7 +22,9 @@ public class Server {
 //        server.acceptInt();
 
 //        测试Socket接收字符串
-        server.acceptString();
+//        server.acceptString();
+
+        server.client();
 
 
     }
@@ -33,8 +32,31 @@ public class Server {
 
     /**
      * Description:
-     * 利用DataOutputStream接收字符串
+     * 服务器也能发送数据,且持续通信
      *
+     * @author heyefu 15:22 2018/4/15
+     **/
+    public void client() {
+        try (ServerSocket server = new ServerSocket(8088)){
+            Socket socket = server.accept();
+            DataInputStream input = new DataInputStream(socket.getInputStream());
+            String data;
+//            怎么判断此次通信结束?
+            while ((data = input.readUTF()) != null){
+                System.out.println("接收的数据为: " + data);
+            }
+            input.close();
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    /**
+     * Description:
+     * 利用DataOutputStream接收字符串
      *
      * @author heyefu 14:31 2018/4/15
      **/
@@ -44,10 +66,10 @@ public class Server {
              Socket socket = server.accept();
              InputStream in = socket.getInputStream();
              DataInputStream dataInput = new DataInputStream(in);
-        ){
+        ) {
             String data = dataInput.readUTF();
             System.out.printf("接收的字符串为:%s %n", data);
-        } catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

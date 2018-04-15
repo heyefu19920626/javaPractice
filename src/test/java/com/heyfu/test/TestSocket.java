@@ -2,11 +2,9 @@ package com.heyfu.test;
 
 import org.junit.Test;
 
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
@@ -23,11 +21,38 @@ public class TestSocket {
 
     public static void main(String[] args) {
         TestSocket test = new TestSocket();
-        test.testScanner();
 
+//        test.testScanner();
+
+        test.testServer();
 
     }
 
+
+    /**
+     * Description:
+     * 可以作为服务端接收数据,并持续通信
+     *
+     * @author heyefu 15:28 2018/4/15
+     **/
+    public void testServer() {
+
+        try {
+            Socket socket = new Socket("127.0.0.1", 8088);
+            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+            Scanner sc = new Scanner(System.in);
+            String data;
+            while (!(data = sc.nextLine()).equals("quit") ){
+                out.writeUTF(data);
+            }
+            out.close();
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 
 
     /**
