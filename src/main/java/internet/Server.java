@@ -1,6 +1,9 @@
 package internet;
 
-import java.io.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
@@ -15,7 +18,7 @@ import java.util.Scanner;
 public class Server {
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         Server server = new Server();
 
@@ -25,9 +28,72 @@ public class Server {
 //        测试Socket接收字符串
 //        server.acceptString();
 
-        server.client();
+//        测试持续收发
+//        server.client();
+
+        ServerSocket serverSocket = new ServerSocket(8888);
+        Socket socket = serverSocket.accept();
+        new Thread(() -> server.sendThread(socket)).start();
+        new Thread(() -> server.receiveThread(socket)).start();
 
 
+    }
+
+
+    /**
+     * Description:
+     * 发送线程
+     *
+     * @param socket Socket
+     * @author heyefu 下午9:53 18-4-15
+     **/
+    public void sendThread(Socket socket) {
+        DataOutputStream out = null;
+        try {
+            out = new DataOutputStream(socket.getOutputStream());
+            String data;
+            Scanner sc = new Scanner(System.in);
+            while (true) {
+                data = sc.nextLine();
+                out.writeUTF(data);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    /**
+     * Description:
+     * 接收线程
+     *
+     * @param socket Socket
+     * @author heyefu 下午9:50 18-4-15
+     **/
+    public void receiveThread(Socket socket) {
+        DataInputStream in = null;
+        String data;
+        try {
+            in = new DataInputStream(socket.getInputStream());
+            while (true) {
+                data = in.readUTF();
+                System.out.println("从客户端接收消息:" + data);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                in.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 
@@ -46,11 +112,11 @@ public class Server {
             String sendData = null;
             String receiveData;
 //            怎么判断此次通信结束?
-            while (true){
+            while (true) {
                 sendData = sc.nextLine();
                 out.writeUTF(sendData);
                 receiveData = input.readUTF();
-                if ("over".equals(receiveData)){
+                if ("over".equals(receiveData)) {
                     break;
                 }
                 System.out.println("从客户端接收消息: " + receiveData);

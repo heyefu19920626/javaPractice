@@ -1,5 +1,6 @@
 package com.heyfu.test;
 
+import internet.Server;
 import org.junit.Test;
 
 import java.io.DataInputStream;
@@ -24,7 +25,15 @@ public class TestSocket {
 
 //        test.testScanner();
 
-        test.testServer();
+//        test.testServer();
+        Server server = new Server();
+        try {
+            Socket socket = new Socket("127.0.0.1", 8888);
+            new Thread(() -> server.sendThread(socket)).start();
+            new Thread(() -> server.receiveThread(socket)).start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
