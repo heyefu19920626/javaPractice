@@ -3,6 +3,7 @@ package internet;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Scanner;
 
 /**
  * Description:
@@ -37,15 +38,25 @@ public class Server {
      * @author heyefu 15:22 2018/4/15
      **/
     public void client() {
-        try (ServerSocket server = new ServerSocket(8088)){
+        try (ServerSocket server = new ServerSocket(8088)) {
             Socket socket = server.accept();
             DataInputStream input = new DataInputStream(socket.getInputStream());
-            String data;
+            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+            Scanner sc = new Scanner(System.in);
+            String sendData = null;
+            String receiveData;
 //            怎么判断此次通信结束?
-            while ((data = input.readUTF()) != null){
-                System.out.println("接收的数据为: " + data);
+            while (true){
+                sendData = sc.nextLine();
+                out.writeUTF(sendData);
+                receiveData = input.readUTF();
+                System.out.println("从客户端接收消息: " + receiveData);
+                if ("over".equals(receiveData)){
+                    break;
+                }
             }
             input.close();
+            out.close();
             socket.close();
         } catch (IOException e) {
             e.printStackTrace();

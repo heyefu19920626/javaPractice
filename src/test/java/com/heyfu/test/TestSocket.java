@@ -2,6 +2,7 @@ package com.heyfu.test;
 
 import org.junit.Test;
 
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -40,12 +41,22 @@ public class TestSocket {
         try {
             Socket socket = new Socket("127.0.0.1", 8088);
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+            DataInputStream in = new DataInputStream(socket.getInputStream());
             Scanner sc = new Scanner(System.in);
-            String data;
-            while (!(data = sc.nextLine()).equals("quit") ){
-                out.writeUTF(data);
+            String sendData;
+            String receiveData;
+            while (true ){
+                sendData = sc.nextLine();
+                out.writeUTF(sendData);
+                if ("quit".equals(sendData)){
+                    break;
+                }
+                receiveData = in.readUTF();
+                System.out.println("从服务器接收消息: " + receiveData);
             }
+            out.writeUTF("over");
             out.close();
+            in.close();
             socket.close();
         } catch (IOException e) {
             e.printStackTrace();
