@@ -3,6 +3,7 @@ package internet;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -34,20 +35,21 @@ public class Server {
      * Description:
      * 利用DataOutputStream接收字符串
      *
+     *
      * @author heyefu 14:31 2018/4/15
      **/
     public void acceptString() {
+//        不知这种通过函数获取的流能否通过try with方式关闭
         try (ServerSocket server = new ServerSocket(8888);
              Socket socket = server.accept();
              InputStream in = socket.getInputStream();
-             DataInputStream dataInput = new DataInputStream(in)
-        ) {
+             DataInputStream dataInput = new DataInputStream(in);
+        ){
             String data = dataInput.readUTF();
             System.out.printf("接收的字符串为:%s %n", data);
-        } catch (IOException e) {
+        } catch(IOException e){
             e.printStackTrace();
         }
-
     }
 
 

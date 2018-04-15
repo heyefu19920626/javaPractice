@@ -2,12 +2,14 @@ package com.heyfu.test;
 
 import org.junit.Test;
 
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 
 /**
  * Description:
@@ -17,6 +19,36 @@ import java.net.UnknownHostException;
  * Time: 19:59
  **/
 public class TestSocket {
+
+
+    public static void main(String[] args) {
+        TestSocket test = new TestSocket();
+        test.testScanner();
+
+
+    }
+
+
+
+    /**
+     * Description:
+     * 测试利用Scanner发送消息:空格正常了 正常了
+     *
+     * @author heyefu 15:09 2018/4/15
+     **/
+    public void testScanner() {
+        try (Socket socket = new Socket("127.0.0.1", 8888)) {
+            DataOutputStream output = new DataOutputStream(socket.getOutputStream());
+            Scanner sc = new Scanner(System.in);
+//            next()输入中有空格好像不能记录?
+            String data = sc.nextLine();
+            output.writeUTF(data);
+            output.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 
 
     /**
