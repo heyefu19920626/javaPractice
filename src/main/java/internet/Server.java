@@ -50,10 +50,10 @@ public class Server {
                 sendData = sc.nextLine();
                 out.writeUTF(sendData);
                 receiveData = input.readUTF();
-                System.out.println("从客户端接收消息: " + receiveData);
                 if ("over".equals(receiveData)){
                     break;
                 }
+                System.out.println("从客户端接收消息: " + receiveData);
             }
             input.close();
             out.close();
