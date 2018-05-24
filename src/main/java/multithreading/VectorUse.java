@@ -12,10 +12,12 @@ import java.util.Vector;
  **/
 public class VectorUse {
 
-    private static Vector<String> infos = new Vector<>();
+    private static VectorUse vectorUse = new VectorUse();
 
-    public static void add(String s) {
-        if (infos.size() > 3) {
+    private Vector<String> infos = new Vector<>();
+
+    public synchronized void add(String s) {
+        while (infos.size() > 3) {
             infos.remove(0);
         }
         infos.add(s);
@@ -38,7 +40,7 @@ public class VectorUse {
                             e.printStackTrace();
                         }
 //                        System.out.println(s + " " + infos.size());
-                        VectorUse.add(this.toString());
+                        vectorUse.add(s);
                     }
                 }
 
@@ -52,13 +54,17 @@ public class VectorUse {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while (true){
+                while (true) {
                     try {
                         Thread.sleep(60000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    System.out.println(infos.size());
+                    System.out.println(vectorUse.infos.size());
+                    for (int i = 0; i < vectorUse.infos.size(); i++) {
+                        System.out.print(vectorUse.infos.get(i) + "\t");
+                    }
+                    System.out.println();
                 }
             }
         }).start();

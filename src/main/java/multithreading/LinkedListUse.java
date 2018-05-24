@@ -17,7 +17,7 @@ public class LinkedListUse {
 
     public static void main(String[] args) {
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 30; i++) {
             new Thread(new Runnable() {
                 String s;
 
@@ -30,8 +30,8 @@ public class LinkedListUse {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        System.out.println(s + " " + infos.size());
-                        LinkedListUse.add(this.toString());
+//                        System.out.println(s + " " + infos.size());
+                        LinkedListUse.add(s);
                     }
                 }
 
@@ -41,9 +41,29 @@ public class LinkedListUse {
                 }
             }.setS("Thread-" + i)).start();
         }
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        Thread.sleep(60000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println(infos.size());
+                    for (int i = 0; i < infos.size(); i++) {
+                        System.out.printf(infos.get(i) + "\t");
+                    }
+                    System.out.println();
+                }
+            }
+        }).start();
+
+
     }
 
-    public static void add(String info) {
+    public static synchronized void add(String info) {
         if (infos.size() > 3) {
             infos.removeFirst();
         }
