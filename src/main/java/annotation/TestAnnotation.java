@@ -6,17 +6,20 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
- * @Auther: heyefu
- * @Date: 2018/8/1 14:15
+ * 测试注解并解析.
+ *
+ * @author heyefu
+ * @date 2018/8/1 14:15
  */
 @JDBCConfig
 public class TestAnnotation {
 
     @Mytarget("9")
+    private
     String ip;
 
     @Mytarget(value = "mytarget:dosomething")
-    public void doSomething() {
+    private void doSomething() {
 
         System.out.println("I am doing something.");
     }
@@ -44,11 +47,11 @@ public class TestAnnotation {
             }
         }
 
-        Method method = TestAnnotation.class.getMethod("doSomething");
+        Method method = TestAnnotation.class.getDeclaredMethod("doSomething");
 
         if (method.isAnnotationPresent(Mytarget.class)) {
             System.out.println(method.getAnnotation(Mytarget.class));
-            method.invoke(new TestAnnotation(), null);
+            method.invoke(new TestAnnotation());
         }
 
     }
