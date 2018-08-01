@@ -1,5 +1,6 @@
 package practices;
 
+import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,8 +12,9 @@ import java.util.regex.Pattern;
  * @Auther: heyefu
  * @Date: 2018/7/31 16:38
  */
-public class RegularPractice {
+public class RegularPractice implements Serializable {
 
+    private static final long serialVersionUID = -487997139393301189L;
 
     public static void main(String[] args) {
 
@@ -22,7 +24,8 @@ public class RegularPractice {
 //        (?<=\\().*?(?=\\))
 /*      为什么需要两个转义
         第一个转义是编译器的,为了显示\
-        第二个转义是正则表达式的，为了显示(*/
+        第二个转义是正则表达式的，为了显示(
+        */
         Pattern pattern = Pattern.compile("(?<=\\()[^\\)]+");
 /*      分组和后向引用
         分组用()表示
@@ -67,4 +70,6 @@ public class RegularPractice {
             System.out.println(matcher.group());
         }
     }
+
+
 }
