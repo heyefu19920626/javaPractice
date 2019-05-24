@@ -21,11 +21,12 @@ public class TestSocket {
 
 
     public static void main(String[] args) {
-        TestSocket test = new TestSocket();
 
-//        test.testScanner();
-
+//        客户端持续与服务器通信，并且能接受服务器返回的消息
+//        TestSocket test = new TestSocket();
 //        test.testServer();
+
+//        客户端即服务器，不需要等待，没有阻塞
         Server server = new Server();
         try {
             Socket socket = new Socket("127.0.0.1", 8888);
@@ -47,7 +48,7 @@ public class TestSocket {
     public void testServer() {
 
         try {
-            Socket socket = new Socket("127.0.0.1", 8088);
+            Socket socket = new Socket("127.0.0.1", 8888);
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
             DataInputStream in = new DataInputStream(socket.getInputStream());
             Scanner sc = new Scanner(System.in);
